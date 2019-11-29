@@ -1,0 +1,26 @@
+service: prerender-puppeteer-sls
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  memorySize: 1536 # Overwrite the default memory size. Default is 1024
+  timeout: 30 # The default is 6 seconds. Note: API Gateway current maximum is 30 seconds
+  # CLI option --stage takes precedence
+  stage: ${opt:stage, 'dev'}
+  endpointType: REGIONAL
+  region: eu-central-1
+  # Configure in AWS console with AWSLambdaBasicExecutionRole and permissions for S3
+  role: arn:aws:iam::xxxxxxxxxxxx:role/lambda-prerender
+  environment:
+    BASIC_AUTH_USERNAME: prerender
+    BASIC_AUTH_PASSWORD: puppet33r
+    S3_BUCKET_NAME: projectname-prerender-cache
+
+functions:
+  render:
+    handler: handler.render
+    events:
+      - http: ANY {proxy+}
+
+plugins:
+  - serverless-offline
