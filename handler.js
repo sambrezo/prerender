@@ -11,6 +11,7 @@ server.init({
   rendererOptions: {
     inject: { prerendered: true },
     renderAfterDocumentEvent: 'custom-render-trigger',
+    renderAfterTime: 5000
     //headless: false
   }
 });
