@@ -18,9 +18,10 @@ server.onRequest = server.onRequest.bind(server);
 
 server.use(require('./lib/plugins/basicAuth'));
 //server.use(require('./lib/plugins/sendPrerenderHeader'));
-//server.use(require('./lib/plugins/removeScriptTags'));
+server.use(require('./lib/plugins/removeScriptTags'));
 server.use(require('./lib/plugins/httpHeaders'));
 // postProcess
+// Only useful with removeScriptTags disabled
 server.use({
   pageLoaded: (req, res, next) => {
     if (req.prerender.content && req.prerender.renderType == 'html') {
